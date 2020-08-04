@@ -41,4 +41,17 @@ class Team extends \yii\db\ActiveRecord
             'name' => 'Name',
         ];
     }
+
+    public static function getOrCreate($name)
+    {
+        $team = self::find()->where(['name' => $name])->one();
+        if($team->id) {
+            return $team->id;
+        } else {
+            $team = new self();
+            $team->name = $name;
+            $team->save();
+            return $team->id;
+        }
+    }
 }

@@ -118,3 +118,18 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+.select {
+    border: solid 1px #ccc;
+    border-radius: 5px;
+}
+
+.selected {
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.selected:hover {
+    background: #2196F3;
+    color: #fff;
+}

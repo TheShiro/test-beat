@@ -30,7 +30,7 @@ class Soccer extends \yii\db\ActiveRecord
             [['name', 'surname'], 'string', 'max' => 50],
             [['sex', 'country'], 'integer'],
             [['birthday'], 'string'],
-            [['team_id'], 'integer'],
+            [['team_id'], 'safe'],
         ];
     }
 

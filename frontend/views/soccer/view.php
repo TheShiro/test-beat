@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use frontend\models\Team;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Soccer */
@@ -34,7 +35,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'surname',
             'sex',
             'birthday',
-            'team_id',
+            [
+                'attribute' => 'team_id',
+                'value' => function($searchModel) { 
+                    return Team::find()->where(['id' => $searchModel->team_id])->one()['name'];
+                },
+            ],
             'country',
         ],
     ]) ?>

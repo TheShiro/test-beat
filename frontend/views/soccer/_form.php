@@ -5,6 +5,7 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use frontend\models\Team;
+use frontend\components\ISWidget;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Soccer */
@@ -23,15 +24,17 @@ $items = ArrayHelper::map($team,'id','name');
 
     <?= $form->field($model, 'sex')->dropdownList($model->getSex()) ?>
 
-    <?= $form->field($model, 'birthday')->widget(
-        DatePicker::classname(), [
+    <?= $form->field($model, 'birthday')->widget(DatePicker::classname(), [
             'pluginOptions' => [
                 'format' => 'yyyy-mm-dd'
             ]
         ] ) 
     ?>
 
-    <?= $form->field($model, 'team_id')->dropdownList($items) ?>
+    <?= $form->field($model, 'team_id')->widget(ISWidget::className(), [
+            'value' => $model->team_id
+        ]) 
+    ?>
 
     <?= $form->field($model, 'country')->dropdownList($model->getCountry()) ?>
 

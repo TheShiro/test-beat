@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\Soccer;
 use frontend\models\SoccerSearch;
+use frontend\models\Team;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -86,8 +87,16 @@ class SoccerController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model->team_id = Team::find()->where(['id' => $model->team_id])->one()['name'];
+
+        if(Yii::$app->request->post()) {
+            //получаем post
+            $arr = Yii::$app->request->post();
+            //получаем id существующей команды либо создаём новую и получаем её id
+            $arr['Soccer']['team_id'] = Team::getOrCreate($arr['Soccer']['team_id']);
+            if ($model->load($arr) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [

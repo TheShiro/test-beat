@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\jui\DatePicker;
+use frontend\models\Team;
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\SoccerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -40,7 +41,12 @@ $this->registerJs($script);
             'surname',
             'sex',
             'birthday',
-            'team_id',
+            [
+                'attribute' => 'team_id',
+                'value' => function($searchModel) { 
+                    return Team::find()->where(['id' => $searchModel->team_id])->one()['name'];
+                },
+            ],
             'country',
 
             ['class' => 'yii\grid\ActionColumn'],

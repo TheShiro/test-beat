@@ -17,8 +17,8 @@ class SoccerSearch extends Soccer
     public function rules()
     {
         return [
-            [['id', 'team_id'], 'integer'],
-            [['name', 'surname', 'sex', 'birthday', 'country'], 'safe'],
+            [['id'], 'integer'],
+            [['name', 'surname', 'sex', 'birthday', 'country', 'team_id'], 'safe'],
         ];
     }
 
@@ -40,7 +40,8 @@ class SoccerSearch extends Soccer
      */
     public function search($params)
     {
-        $query = Soccer::find();
+        $query = Soccer::find()
+            ->leftJoin('team', "team_id = team.id");
 
         // add conditions that should always apply here
 
@@ -60,12 +61,12 @@ class SoccerSearch extends Soccer
         $query->andFilterWhere([
             'id' => $this->id,
             'birthday' => $this->birthday,
-            'team_id' => $this->team_id,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'surname', $this->surname])
             ->andFilterWhere(['like', 'sex', $this->sex])
+            ->andFilterWhere(['like', 'team.name', $this->team_id])
             ->andFilterWhere(['like', 'country', $this->country]);
 
         return $dataProvider;
